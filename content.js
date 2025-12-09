@@ -83,3 +83,16 @@ function updateFontStyle(fontName) {
     console.log("FontChanger: Style content updated");
 }
 
+
+// Initialize: Check for persisted font
+chrome.runtime.sendMessage({ action: "getTabFont" }, (response) => {
+    if (chrome.runtime.lastError) {
+        // Background script might not be ready or reachable
+        console.log("FontChanger: Could not connect to background script", chrome.runtime.lastError);
+        return;
+    }
+    if (response && response.font) {
+        console.log("FontChanger: Applying persisted font:", response.font);
+        applyFont(response.font);
+    }
+});
