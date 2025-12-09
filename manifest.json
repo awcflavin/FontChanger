@@ -5,7 +5,6 @@
   "description": "Change the font of any webpage.",
   "permissions": [
     "activeTab",
-    "scripting",
     "storage"
   ],
   "background": {
