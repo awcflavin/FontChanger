@@ -70,6 +70,7 @@ const emptyState = document.getElementById('empty-state');
 const currentFontDisplay = document.getElementById('current-font-display');
 const currentFontName = document.getElementById('current-font-name');
 const resetBtn = document.getElementById('reset-btn');
+const loadingOverlay = document.getElementById('loading-overlay');
 
 let currentTab = 'recents'; // 'recents' or 'all'
 let recentFonts = [];
@@ -111,13 +112,19 @@ resetBtn.addEventListener('click', async () => {
     }
 });
 
-// Helper to safely send message
+// Helper to safely send message, returns Promise
 function sendMessageToContent(message) {
-    if (!currentTabId) return;
-    chrome.tabs.sendMessage(currentTabId, message, (response) => {
-        if (chrome.runtime.lastError) {
-            // Ignore error
-        }
+    if (!currentTabId) return Promise.resolve();
+    return new Promise((resolve) => {
+        chrome.tabs.sendMessage(currentTabId, message, (response) => {
+            if (chrome.runtime.lastError) {
+                // Ignore error
+                console.warn(chrome.runtime.lastError);
+                resolve(null);
+            } else {
+                resolve(response);
+            }
+        });
     });
 }
 
@@ -199,7 +206,20 @@ function render() {
     });
 }
 
-function applyFont(fontName) {
-    addToRecents(fontName);
-    sendMessageToContent({ action: "changeFont", font: fontName });
+async function applyFont(fontName) {
+    showLoading();
+    try {
+        await sendMessageToContent({ action: "changeFont", font: fontName });
+        addToRecents(fontName); // Only add to recents if successful (or at least attempted)
+    } finally {
+        hideLoading();
+    }
+}
+
+function showLoading() {
+    if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+}
+
+function hideLoading() {
+    if (loadingOverlay) loadingOverlay.classList.add('hidden');
 }

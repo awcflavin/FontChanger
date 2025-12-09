@@ -11,8 +11,13 @@ console.log("FontChanger: Content script loaded on " + window.location.href);
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("FontChanger: Message received", request);
     if (request.action === "changeFont") {
-        applyFont(request.font);
-        sendResponse({ status: "success", font: request.font });
+        applyFont(request.font).then(() => {
+            sendResponse({ status: "success", font: request.font });
+        }).catch(err => {
+            console.error("Font load error", err);
+            sendResponse({ status: "error", error: err.toString() });
+        });
+        return true; // Indicates async response
     } else if (request.action === "resetFont") {
         resetFont();
         sendResponse({ status: "reset" });
@@ -29,10 +34,16 @@ function resetFont() {
     }
 }
 
-function applyFont(fontName) {
+async function applyFont(fontName) {
     // 1. Handle Google Fonts import if needed
     if (!STANDARD_FONTS.includes(fontName)) {
         updateFontLink(fontName);
+        // Wait for font to load
+        try {
+            await document.fonts.load(`16px "${fontName}"`);
+        } catch (e) {
+            console.warn("Font loading failed or timed out", e);
+        }
     }
 
     // 2. Update CSS
@@ -49,6 +60,7 @@ function updateFontLink(fontName) {
     }
     // Replace spaces with + for URL
     const formattedName = fontName.replace(/\s+/g, '+');
+    // Add display=block to ensure we can detect loading, though swap is usually fine.
     link.href = `https://fonts.googleapis.com/css2?family=${formattedName}&display=swap`;
 }
 
