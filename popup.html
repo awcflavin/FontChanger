@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Changer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-top">
+        <div id="current-font-display" class="current-font hidden">
+          Current: <span id="current-font-name">None</span>
+        </div>
+        <button id="reset-btn" class="reset-btn" title="Reset to Original Font">↺</button>
+      </div>
+      <input type="text" id="font-search" placeholder="Search fonts...">
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="recents">Recents</button>
+      <button class="tab-btn" data-tab="all">All Fonts</button>
+    </div>
+
+    <div class="content">
+      <ul id="font-list" class="font-list">
+        <!-- Fonts will be injected here -->
+      </ul>
+      <div id="empty-state" class="hidden">No fonts found</div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

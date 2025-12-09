@@ -1,0 +1,179 @@
+:root {
+  --primary-color: #2196f3;
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --hover-color: #f5f5f5;
+  --border-color: #e0e0e0;
+}
+
+body {
+  min-width: 20rem;
+  /* approx 320px */
+  max-width: 30rem;
+  /* approx 480px, gives it room to breathe if system allows */
+  width: auto;
+  /* Remove fixed height to allow content to dictate height, but set limits */
+  min-height: 15rem;
+  max-height: 37.5rem;
+  /* approx 600px */
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.current-font {
+  font-size: 0.8125rem;
+  /* 13px */
+  color: #666;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  /* Take up remaining space */
+  margin-right: 0.5rem;
+}
+
+#current-font-name {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10rem;
+}
+
+.reset-btn {
+  background: white;
+  border: 1px solid var(--border-color);
+  color: #666;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1;
+  transition: all 0.2s;
+}
+
+.reset-btn:hover {
+  background-color: #fce4ec;
+  /* Light pink/red tint for destructive/reset action */
+  color: #d81b60;
+  border-color: #d81b60;
+}
+
+
+
+#font-search {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: none;
+}
+
+#font-search:focus {
+  border-color: var(--primary-color);
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  background-color: var(--hover-color);
+  color: var(--text-color);
+}
+
+.tab-btn.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  /* Ensure it has a minimum height so it doesn't collapse */
+  min-height: 6rem;
+}
+
+.font-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.font-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s;
+}
+
+.font-item:hover {
+  background-color: var(--hover-color);
+}
+
+.font-item.selected {
+  background-color: #e3f2fd;
+  /* Light blue */
+  color: var(--primary-color);
+}
+
+.font-preview {
+  font-size: 16px;
+}
+
+#empty-state {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+}
+
+.hidden {
+  display: none;
+}
